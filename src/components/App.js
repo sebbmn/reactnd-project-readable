@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import { getAll } from '../utils/api'
+import Post from './Post'
+import Comment from './Comment'
 
 class App extends Component {
   state = {
@@ -27,10 +29,12 @@ class App extends Component {
         </p>
         {this.state.posts[0] && this.state.posts.map((post) => (
           <div key={post.id}>
-            <h1 key={post.id}>{post.id}</h1>
+            <h1 key={post.id}>{post.title}</h1>
             <div key={post.id+post.id}>{post.body}</div>
           </div>
         ))}
+        <Post></Post>
+        <Comment></Comment>
       </div>
     );
   }
