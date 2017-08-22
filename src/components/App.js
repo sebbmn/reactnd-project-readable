@@ -8,13 +8,13 @@ import Comment from './Comment'
 import { addContent, updateContent, deleteContent } from '../actions'
 
 class App extends Component {
-  state = {
-    posts : []
-  }
+  state = {}
   componentDidMount() {
     getAll().then((posts) => {
       if(!posts.error) {
-        this.setState({posts})
+        posts.map(post => (
+          this.props.add({ id: post.id, parentId:post.parentId, Timestamp:Date.now(), title:post.title, body: post.body, author: post.author, category:post.category })
+        ))    
       }     
     })  
 }
@@ -27,17 +27,9 @@ class App extends Component {
         </div>
         <p className="App-intro">
           Here the api test for now...
-          
         </p>
-        {this.state.posts[0] && this.state.posts.map((post) => (
-          <div key={post.id}>
-            <h1 key={post.id}>{post.title}</h1>
-            <div key={post.id+post.id}>{post.body}</div>
-          </div>
-        ))}
         <Post></Post>
         <Comment></Comment>
-        {console.log(this.props)}
       </div>
     );
   }
@@ -50,8 +42,10 @@ function mapStateToProps ({ posts, comments }) {
 }
 
 function mapDispatchToProps (dispatch) {
-  return {
-    
+  return { 
+    add: (data) => dispatch(addContent(data)),
+    update: (data) => dispatch(updateContent(data)),
+    delete: (data) => dispatch(deleteContent(data)) 
   }
 }
 
