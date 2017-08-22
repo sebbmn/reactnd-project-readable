@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import logo from './logo.svg'
 import './App.css'
 import { getAll } from '../utils/api'
 import Post from './Post'
 import Comment from './Comment'
+import { addContent, updateContent, deleteContent } from '../actions'
 
 class App extends Component {
   state = {
@@ -35,9 +37,25 @@ class App extends Component {
         ))}
         <Post></Post>
         <Comment></Comment>
+        {console.log(this.props)}
       </div>
     );
   }
 }
+function mapStateToProps ({ posts, comments }) {
+  return {
+    posts,
+    comments
+  }
+}
 
-export default App;
+function mapDispatchToProps (dispatch) {
+  return {
+    
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)

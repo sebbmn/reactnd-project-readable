@@ -6,26 +6,7 @@ import {
   DELETE_CONTENT,
 } from '../actions'
 
-const initialPostState = {
-  id: null,
-  timestamp: 0,
-  title: null,
-  body: null,
-  author: null,
-  category: null,
-  voteScore: 1,
-  deleted: false,
-}
-const initialCommentState = {
-  id: null,
-  parentId: null,
-  timestamp: 0,
-  body: null,
-  author: null,
-  voteScore: 1,
-  deleted: false,
-  parentDeleted: false,
-}
+
 // http://redux.js.org/docs/basics/ExampleTodoList.html comme example
 function posts(state = [], action) {
   const { id, timestamp, title, body, author, category, voteScore} = action
@@ -41,7 +22,7 @@ function posts(state = [], action) {
           body: body,
           author: author,
           category: category,
-          voteScore: 1,
+          voteScore: voteScore,
           deleted: false,
         }
       ]
@@ -59,7 +40,18 @@ function comments(state = [], action) {
 
   switch (action.type) {
     case ADD_CONTENT:
-      return state
+      return [
+        ...state,
+        {
+          id: id,
+          parentId: parentId,
+          timestamp: timestamp,
+          body: body,
+          author: author,
+          voteScore: voteScore,
+          deleted: false,
+        }
+      ]
     case UPDATE_CONTENT:
       return state
     case DELETE_CONTENT:
@@ -70,6 +62,6 @@ function comments(state = [], action) {
 }
 
 export default combineReducers({
-  post,
-  comment,
+  posts,
+  comments,
 })
