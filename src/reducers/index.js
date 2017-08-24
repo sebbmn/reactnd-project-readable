@@ -9,7 +9,7 @@ import {
 
 // http://redux.js.org/docs/basics/ExampleTodoList.html comme example
 function posts(state = [], action) {
-  const { id, timestamp, title, body, author, category, voteScore} = action
+  const { id, title, category} = action
 
   // Check if its a post
   if(category) {
@@ -19,13 +19,8 @@ function posts(state = [], action) {
           ...state,
           {
             id: id,
-            timestamp: timestamp,
             title: title,
-            body: body,
-            author: author,
             category: category,
-            voteScore: voteScore,
-            deleted: false,
           }
         ]
       case UPDATE_CONTENT:
@@ -41,7 +36,7 @@ function posts(state = [], action) {
 }
 
 function comments(state = [], action) {
-  const { id, parentId, timestamp, body, author, voteScore } = action
+  const { id, parentId, parentDeleted } = action
 
   // check if its a comment
   if(parentId) {
@@ -52,11 +47,7 @@ function comments(state = [], action) {
           {
             id: id,
             parentId: parentId,
-            timestamp: timestamp,
-            body: body,
-            author: author,
-            voteScore: voteScore,
-            deleted: false,
+            parentDeleted: false,
           }
         ]
       case UPDATE_CONTENT:
@@ -71,7 +62,34 @@ function comments(state = [], action) {
   }
 }
 
+function contents(state = [], action) {
+  const { id, timestamp, body, author, voteScore, deleted } = action
+
+  switch (action.type) {
+    case ADD_CONTENT:
+      return [
+        ...state,
+        {
+          id: id,
+          timestamp: timestamp,
+          body: body,
+          author: author,
+          voteScore: 1,
+          deleted: false,
+        }
+      ]
+    case UPDATE_CONTENT:
+      return state
+    case DELETE_CONTENT:
+      return state
+    default :
+      return state
+  }
+}
+
+
 export default combineReducers({
   posts,
   comments,
+  contents,
 })

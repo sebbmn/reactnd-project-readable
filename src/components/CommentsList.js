@@ -3,14 +3,14 @@ import Content from './Content'
 import { connect } from 'react-redux'
 import { addContent, updateContent, deleteContent } from '../actions'
 
-class Comment extends Component {
+class CommentsList extends Component {
 
   render () {
-    const { comments } = this.props
+    const { comments, contents } = this.props
 
     return (
       <div className='comment'>
-        <h1>Comment component</h1>
+        <h1>Comments</h1>
         {comments[0] && comments.map((comment) => (
           <div key={comment.id}>
             <h1 key={comment.id}>{comment.title}</h1>
@@ -24,9 +24,10 @@ class Comment extends Component {
   }
 }
 
-function mapStateToProps ({ comments }) {
+function mapStateToProps ({ comments, contents }) {
   return {
-    comments
+    comments,
+    contents
   }
 }
 
@@ -41,4 +42,4 @@ function mapDispatchToProps (dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Comment)
+)(CommentsList)

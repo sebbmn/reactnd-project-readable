@@ -5,3 +5,8 @@ export const getAll = () => {
   .then(res => res.json())
   //.then(data => data)
 }
+export const getPost = (id) => {
+  return fetch(`${api}posts/${id}`, { headers: { 'Authorization': 'whatever-you-want' }})
+  .then(res => res.json())
+  //.then(data => data)
+}

@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import logo from './logo.svg'
 import './App.css'
-import { getAll } from '../utils/api'
-import Post from './Post'
-import Comment from './Comment'
+import { getAll, getPost } from '../utils/api'
+import PostsList from './PostsList'
+import CommentsList from './CommentsList'
 import { addContent, updateContent, deleteContent } from '../actions'
 
 class App extends Component {
@@ -12,9 +12,17 @@ class App extends Component {
   componentDidMount() {
     getAll().then((posts) => {
       if(!posts.error) {
-        posts.map(post => (
-          this.props.add({ id: post.id, parentId:post.parentId, Timestamp:Date.now(), title:post.title, body: post.body, author: post.author, category:post.category })
+        posts.map(p => (
+          getPost(p.id).then((post) => {
+            if(!post.error) {
+                this.props.add({ id: post.id, parentId:post.parentId, timestamp:post.timestamp, title:post.title, body: post.body, author: post.author, category:post.category })
+            } else {
+              console.log('fetch data error')
+            }  
+          })  
         ))    
+      } else {
+        console.log('fetch data error')
       }     
     })  
 }
@@ -28,8 +36,8 @@ class App extends Component {
         <p className="App-intro">
           Here the api test for now...
         </p>
-        <Post></Post>
-        <Comment></Comment>
+        <PostsList></PostsList>
+        <CommentsList></CommentsList>
       </div>
     );
   }
