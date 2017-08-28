@@ -1,14 +1,18 @@
+
+import './App.css'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import logo from './logo.svg'
-import './App.css'
+import { Switch, Route, Link, withRouter  } from 'react-router-dom'
 import { getAll, getPost } from '../utils/api'
-import PostsList from './PostsList'
-import CommentsList from './CommentsList'
+import Post from './Post'
+import Home from './Home'
+import Category from './Category'
+import Header from './Header'
+
+
 import { addContent, updateContent, deleteContent } from '../actions'
 
 class App extends Component {
-  state = {}
   componentDidMount() {
     getAll().then((posts) => {
       if(!posts.error) {
@@ -29,23 +33,20 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          Here the api test for now...
-        </p>
-        <PostsList></PostsList>
-        <CommentsList></CommentsList>
+        <Header></Header>
+        <Switch>
+          <Route exact path='/' component={Home}/>
+          <Route exact path='/category' component={Category}/>
+          <Route path='/category/:categoryName' component={Category}/>
+          <Route exact path='/post' component={Post}/>
+          <Route path='/post/:postId' component={Post}/>
+        </Switch>
       </div>
     );
   }
 }
-function mapStateToProps ({ posts, comments }) {
+function mapStateToProps () {
   return {
-    posts,
-    comments
   }
 }
 
@@ -57,7 +58,7 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(App)
+)(App))
