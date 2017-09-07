@@ -2,15 +2,16 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import CommentsList from './CommentsList'
 import Content from './Content'
+import { addContent, updateContent, deleteContent } from '../actions'
 
 class Post extends Component {
   
   render () {
     const {match, posts} = this.props
     const post = posts.find(p => p.id === match.params.postId)
-    console.log(post)
+
     return (
-      <div>
+      <div className='post'>
         <h1>{post && post.title}</h1>
         <Content contentId={match.params.postId}></Content>
         <CommentsList postId={match.params.postId}></CommentsList>
@@ -23,6 +24,15 @@ function mapStateToProps ({ posts }) {
     posts
   }
 }
+function mapDispatchToProps (dispatch) {
+  return { 
+    add: (data) => dispatch(addContent(data)),
+    update: (data) => dispatch(updateContent(data)),
+    delete: (data) => dispatch(deleteContent(data)) 
+  }
+}
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Post)

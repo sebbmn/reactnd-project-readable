@@ -5,10 +5,10 @@ import { addContent, updateContent, deleteContent } from '../actions'
 
 class PostsList extends Component {
   render () {
-    const {posts} = this.props
+    const { posts } = this.props
 
     return (
-      <ul className='post' key='hafhjfa'>
+      <ul className='posts' key='hafhjfa'>
         <h1>Post component</h1>
         {posts[0] && posts.map((post) => (
           <li key={post.id}>
