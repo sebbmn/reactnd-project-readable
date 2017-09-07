@@ -3,7 +3,7 @@ import './App.css'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Switch, Route, withRouter  } from 'react-router-dom'
-import { getAll, getPost, getComments } from '../utils/api'
+import { getAll, getPost, getComments, getCategories } from '../utils/api'
 import Post from './Post'
 import Home from './Home'
 import Category from './Category'
@@ -37,7 +37,9 @@ class App extends Component {
       } else {
         console.log('fetch data error: posts')
       }     
-    })  
+    }
+  )
+  getCategories().then( categories => console.log(categories)) 
 }
   render() {
     return (

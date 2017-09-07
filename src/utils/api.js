@@ -15,3 +15,8 @@ export const getComments = (postId) => {
   .then(res => res.json())
   //.then(data => data)
 }
+export const getCategories = () => {
+  return fetch(`${api}categories`, { headers: { 'Authorization': 'whatever-you-want' }})
+  .then(res => res.json())
+  //.then(data => data)
+}

@@ -14,6 +14,15 @@ const Header = () => (
     <nav>
       <Link to='/'>Home</Link>
     </nav>
+    <nav>
+      <Link to='/category/react'>react</Link>
+    </nav>
+    <nav>
+      <Link to='/category/redux'>redux</Link>
+    </nav>
+    <nav>
+      <Link to='/category/udacity'>udacity</Link>
+    </nav>
   </header>
 )
 
