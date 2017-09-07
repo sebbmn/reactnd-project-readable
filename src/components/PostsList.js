@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Content from './Content'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { addContent, updateContent, deleteContent } from '../actions'
@@ -9,13 +8,13 @@ class PostsList extends Component {
     const {posts} = this.props
 
     return (
-      <ul className='post'>
+      <ul className='post' key='hafhjfa'>
         <h1>Post component</h1>
         {posts[0] && posts.map((post) => (
           <li key={post.id}>
-            <h1 key={post.id}>{post.title}</h1>
-            <Link to={`/post/${post.id}`}>Lien...</Link>
-            <Content id={post.id}></Content>
+            <Link to={`/post/${post.id}`}>
+              <h1 key={post.id}>{post.title}</h1>
+            </Link>
           </li>
         ))}
       </ul>

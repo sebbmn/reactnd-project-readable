@@ -4,11 +4,11 @@ import { connect } from 'react-redux'
 class Content extends Component {
   
   render () {
-    const {id,contents} = this.props
-    const content = contents.find(content => content.id === id)
-    //console.log(content)
+    const { contentId, contentClass, contents } = this.props
+    const content = contents.find(content => content.id === contentId)
+
     return (
-      <div className='content'>
+      <div className={contentClass}>
         <div className='content-id'>ID: {content && content.id}</div>
         <div className='content-timestamp'>Timestamp: {content && content.timestamp}</div>
         <div className='content-body'>Body: {content && content.body}</div>

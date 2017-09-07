@@ -6,19 +6,17 @@ import { addContent, updateContent, deleteContent } from '../actions'
 class CommentsList extends Component {
 
   render () {
-    const { comments, contents } = this.props
+    const { postId, comments } = this.props
+    comments.filter(comment => comment.parentId === postId)
 
     return (
       <div className='comment'>
         <h1>Comments</h1>
-        {comments[0] && comments.map((comment) => (
+        {comments.filter(comment => comment.parentId === postId)[0] && comments.filter(comment => comment.parentId === postId).map((comment) => (
           <div key={comment.id}>
-            <h1 key={comment.id}>{comment.title}</h1>
-            <h2>Author: {comment.author}</h2>
-            <div key={comment.id+comment.id}>{comment.body}</div>
+            <Content contentId={comment.id}></Content>
           </div>
         ))}
-        <Content></Content>
       </div>
     )
   }
@@ -26,8 +24,7 @@ class CommentsList extends Component {
 
 function mapStateToProps ({ comments, contents }) {
   return {
-    comments,
-    contents
+    comments
   }
 }
 

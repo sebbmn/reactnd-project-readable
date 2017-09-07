@@ -2,8 +2,8 @@
 import './App.css'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Switch, Route, Link, withRouter  } from 'react-router-dom'
-import { getAll, getPost } from '../utils/api'
+import { Switch, Route, withRouter  } from 'react-router-dom'
+import { getAll, getPost, getComments } from '../utils/api'
 import Post from './Post'
 import Home from './Home'
 import Category from './Category'
@@ -19,14 +19,23 @@ class App extends Component {
         posts.map(p => (
           getPost(p.id).then((post) => {
             if(!post.error) {
-                this.props.add({ id: post.id, parentId:post.parentId, timestamp:post.timestamp, title:post.title, body: post.body, author: post.author, category:post.category })
+                this.props.add({ id: post.id, timestamp:post.timestamp, title:post.title, body: post.body, author: post.author, category:post.category })
+                getComments(p.id).then((comments) => {
+                  if(!comments.error) {
+                    comments.map(comment => (
+                      this.props.add({ id: comment.id, parentId: comment.parentId, timestamp:comment.timestamp, title:comment.title, body: comment.body, author: comment.author })  
+                    ))
+                  } else {
+                    console.log('fetch data error: comments')      
+                  }
+                })
             } else {
-              console.log('fetch data error')
+              console.log('fetch data error: post id: ...')
             }  
           })  
         ))    
       } else {
-        console.log('fetch data error')
+        console.log('fetch data error: posts')
       }     
     })  
 }

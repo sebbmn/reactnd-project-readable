@@ -10,3 +10,8 @@ export const getPost = (id) => {
   .then(res => res.json())
   //.then(data => data)
 }
+export const getComments = (postId) => {
+  return fetch(`${api}posts/${postId}/comments`, { headers: { 'Authorization': 'whatever-you-want' }})
+  .then(res => res.json())
+  //.then(data => data)
+}

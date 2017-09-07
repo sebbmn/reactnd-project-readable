@@ -5,7 +5,7 @@ import CommentsList from './CommentsList'
 class Post extends Component {
   
   render () {
-    const {match,contents, posts} = this.props
+    const {match, contents} = this.props
     const content = contents.find(content => content.id === match.params.postId)
     //console.log(content)
     return (
@@ -16,7 +16,7 @@ class Post extends Component {
         <div className='content-author'>Author: {content && content.author}</div>
         <div className='content-votescore'>Votescore: {content && content.voteScore}</div>
         <div className='content-deleted'>Deleted: {content && content.deleted}</div>
-        <CommentsList></CommentsList>
+        <CommentsList postId={match.params.postId}></CommentsList>
       </div>
     )
   }

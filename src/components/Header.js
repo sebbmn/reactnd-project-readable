@@ -12,10 +12,7 @@ const Header = () => (
       Here the api test for now...
     </p>
     <nav>
-      <ul>
-        <li><Link to='/'>Home</Link></li>
-        <a href='/'>home</a>
-      </ul>
+      <Link to='/'>Home</Link>
     </nav>
   </header>
 )
