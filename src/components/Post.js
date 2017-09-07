@@ -1,29 +1,26 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import CommentsList from './CommentsList'
+import Content from './Content'
 
 class Post extends Component {
   
   render () {
-    const {match, contents} = this.props
-    const content = contents.find(content => content.id === match.params.postId)
-    //console.log(content)
+    const {match, posts} = this.props
+    const post = posts.find(p => p.id === match.params.postId)
+    console.log(post)
     return (
-      <div className='content'>
-        <div className='content-id'>ID: {content && content.id}</div>
-        <div className='content-timestamp'>Timestamp: {content && content.timestamp}</div>
-        <div className='content-body'>Body: {content && content.body}</div>
-        <div className='content-author'>Author: {content && content.author}</div>
-        <div className='content-votescore'>Votescore: {content && content.voteScore}</div>
-        <div className='content-deleted'>Deleted: {content && content.deleted}</div>
+      <div>
+        <h1>{post && post.title}</h1>
+        <Content contentId={match.params.postId}></Content>
         <CommentsList postId={match.params.postId}></CommentsList>
       </div>
     )
   }
 }
-function mapStateToProps ({ contents, posts }) {
+function mapStateToProps ({ posts }) {
   return {
-    contents, posts
+    posts
   }
 }
 export default connect(
