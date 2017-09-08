@@ -21,7 +21,7 @@ class Header extends Component {
           <Link to='/'>Home</Link>
         </nav>
           {categories[0] && categories.map( cat => (
-            <nav>
+            <nav key={cat.name}>
               <Link key={cat.name} to={`/category/${cat.path}`}>{cat.name}</Link>
             </nav>
           ))}
