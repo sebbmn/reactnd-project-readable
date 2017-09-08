@@ -10,7 +10,6 @@ class PostsList extends Component {
 
     return (
       <ul className='posts' key='hafhjfa'>
-        <h1>Post component</h1>
         {postsList[0] && postsList.map((post) => (
           <li key={post.id}>
             <Link to={`/post/${post.id}`}>
