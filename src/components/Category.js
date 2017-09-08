@@ -3,7 +3,7 @@ import PostsList from './PostsList'
 
 class Category extends Component {
   render () {
-    const {match} = this.props
+    const { match } = this.props
 
     return (
       <div className='category'>

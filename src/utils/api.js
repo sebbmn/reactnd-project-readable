@@ -8,15 +8,12 @@ export const getAll = () => {
 export const getPost = (id) => {
   return fetch(`${api}posts/${id}`, { headers: { 'Authorization': 'whatever-you-want' }})
   .then(res => res.json())
-  //.then(data => data)
 }
 export const getComments = (postId) => {
   return fetch(`${api}posts/${postId}/comments`, { headers: { 'Authorization': 'whatever-you-want' }})
   .then(res => res.json())
-  //.then(data => data)
 }
 export const getCategories = () => {
   return fetch(`${api}categories`, { headers: { 'Authorization': 'whatever-you-want' }})
   .then(res => res.json())
-  //.then(data => data)
 }

@@ -4,6 +4,7 @@ import {
   ADD_CONTENT,
   UPDATE_CONTENT,
   DELETE_CONTENT,
+  ADD_CATEGORY,
 } from '../actions'
 
 
@@ -36,7 +37,8 @@ function posts(state = [], action) {
 }
 
 function comments(state = [], action) {
-  const { id, parentId, parentDeleted } = action
+  // const { id, parentId, parentDeleted } = action
+  const { id, parentId } = action
 
   // check if its a comment
   if(parentId) {
@@ -63,7 +65,8 @@ function comments(state = [], action) {
 }
 
 function contents(state = [], action) {
-  const { id, timestamp, body, author, voteScore, deleted } = action
+  // const { id, timestamp, body, author, voteScore, deleted } = action
+  const { id, timestamp, body, author } = action
 
   switch (action.type) {
     case ADD_CONTENT:
@@ -87,9 +90,25 @@ function contents(state = [], action) {
   }
 }
 
+function categories(state = [], action) {
+  const { name, path } = action
+  switch (action.type) {
+    case ADD_CATEGORY:
+      return [
+        ...state,
+        {
+          name: name,
+          path: path,
+        }
+      ]
+    default:
+      return state
+  }
+}
 
 export default combineReducers({
   posts,
   comments,
   contents,
+  categories,
 })

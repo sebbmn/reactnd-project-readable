@@ -10,7 +10,7 @@ import Category from './Category'
 import Header from './Header'
 
 
-import { addContent, updateContent, deleteContent } from '../actions'
+import { addContent, updateContent, deleteContent, addCategory } from '../actions'
 
 class App extends Component {
   componentDidMount() {
@@ -39,7 +39,15 @@ class App extends Component {
       }     
     }
   )
-  getCategories().then( categories => console.log(categories)) 
+  getCategories().then( (categories) => {
+    if(!categories.error) {
+      categories.categories.map(cat => (
+        this.props.addCat({ name: cat.name, path: cat.path })
+      ))
+    } else {
+      console.log('fetch data error: categories')
+    }
+  })
 }
   render() {
     return (
@@ -65,7 +73,8 @@ function mapDispatchToProps (dispatch) {
   return { 
     add: (data) => dispatch(addContent(data)),
     update: (data) => dispatch(updateContent(data)),
-    delete: (data) => dispatch(deleteContent(data)) 
+    delete: (data) => dispatch(deleteContent(data)),
+    addCat: (data) => dispatch(addCategory(data))
   }
 }
 
