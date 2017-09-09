@@ -5,6 +5,7 @@ import {
   UPDATE_CONTENT,
   DELETE_CONTENT,
   ADD_CATEGORY,
+  PARENT_DELETED,
 } from '../actions'
 
 
@@ -24,10 +25,6 @@ function posts(state = [], action) {
             category: category,
           }
         ]
-      case UPDATE_CONTENT:
-        return state
-      case DELETE_CONTENT:
-        return state
       default :
         return state
     }
@@ -52,10 +49,13 @@ function comments(state = [], action) {
             parentDeleted: false,
           }
         ]
-      case UPDATE_CONTENT:
-        return state
-      case DELETE_CONTENT:
-        return state
+      case PARENT_DELETED:
+        return state.map( comment =>
+          (comment.parentId === action.parentId)
+            ? {...comment, 
+              parentId: true}
+            : comment
+        )
       default :
         return state
     }
@@ -65,8 +65,7 @@ function comments(state = [], action) {
 }
 
 function contents(state = [], action) {
-  // const { id, timestamp, body, author, voteScore, deleted } = action
-  const { id, timestamp, body, author } = action
+  const { id, timestamp, body, author, voteScore } = action
 
   switch (action.type) {
     case ADD_CONTENT:
@@ -82,9 +81,20 @@ function contents(state = [], action) {
         }
       ]
     case UPDATE_CONTENT:
-      return state
+      return state.map( content =>
+        (content.id === action.id)
+          ? {...content, 
+            body: body,
+            voteScore: voteScore}
+          : content
+      )
     case DELETE_CONTENT:
-      return state
+      return state.map( content =>
+        (content.id === action.id)
+          ? {...content, 
+            deleted: true}
+          : content
+      )
     default :
       return state
   }
