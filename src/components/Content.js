@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addContent, updateContent, deleteContent } from '../actions'
+import { Link } from 'react-router-dom'
+import { deleteContent } from '../actions'
 
 class Content extends Component {
   
@@ -17,6 +18,7 @@ class Content extends Component {
         <div className='content-author'>Author: {content && content.author}</div>
         <div className='content-votescore'>Votescore: {content && content.voteScore}</div>
         <div className='content-deleted'>Deleted: {content && content.deleted}</div>
+        <Link to={`/edit/${contentId}`}>Edit</Link>
       </div>
     )
   }
@@ -28,8 +30,6 @@ function mapStateToProps ({ contents }) {
 }
 function mapDispatchToProps (dispatch) {
   return { 
-    add: (data) => dispatch(addContent(data)),
-    update: (data) => dispatch(updateContent(data)),
     delete: (data) => dispatch(deleteContent(data)) 
   }
 }

@@ -3,6 +3,7 @@ export const UPDATE_CONTENT = 'UPDATE_CONTENT'
 export const DELETE_CONTENT = 'DELETE_CONTENT'
 export const ADD_CATEGORY = 'ADD_CATEGORY'
 export const PARENT_DELETED = 'PARENT_DELETED'
+export const UPDATE_BUFFER = 'UPDATE_BUFFER'
 
 export function addContent ({ id, parentId, timestamp, title, body, author, category }) {
   return {
@@ -44,6 +45,13 @@ export function addCategory ({ name, path }) {
   return {
     type: ADD_CATEGORY,
     name,
-    path
+    path,
+  }
+}
+
+export function updateBuffer ({content}) {
+  return {
+    type: UPDATE_BUFFER,
+    content,
   }
 }

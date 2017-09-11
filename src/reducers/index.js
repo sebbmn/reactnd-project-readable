@@ -6,6 +6,7 @@ import {
   DELETE_CONTENT,
   ADD_CATEGORY,
   PARENT_DELETED,
+  UPDATE_BUFFER,
 } from '../actions'
 
 
@@ -116,9 +117,19 @@ function categories(state = [], action) {
   }
 }
 
+function buffer(state = {}, action) {
+  switch (action.type) {
+    case UPDATE_BUFFER:
+      return {content: action.content}
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
   posts,
   comments,
   contents,
   categories,
+  buffer,
 })
