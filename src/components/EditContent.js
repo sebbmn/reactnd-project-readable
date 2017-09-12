@@ -14,6 +14,7 @@ class EditContent extends Component {
   handleSubmit = (event) => {
     event.preventDefault()
     this.setState({ fireRedirect: true })
+    this.props.updateC({ id: this.props.match.params.contentId, body: this.state.textAreaValue, voteScore: 666 })
   }
   render () {
     const { match, contentClass, contents } = this.props
@@ -34,7 +35,7 @@ class EditContent extends Component {
           <input type="submit" value="Submit" />
         </form>
         {fireRedirect && (
-          <Redirect to={`/`}/>
+          <Redirect to={`/post/${match.params.contentId}`}/>
         )}
       </div>
     )

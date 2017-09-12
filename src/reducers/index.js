@@ -5,7 +5,6 @@ import {
   UPDATE_CONTENT,
   DELETE_CONTENT,
   ADD_CATEGORY,
-  PARENT_DELETED,
   UPDATE_BUFFER,
 } from '../actions'
 
@@ -50,18 +49,21 @@ function comments(state = [], action) {
             parentDeleted: false,
           }
         ]
-      case PARENT_DELETED:
+      default :
+        return state
+    }
+  } else {
+    switch (action.type) {
+      case DELETE_CONTENT:
         return state.map( comment =>
-          (comment.parentId === action.parentId)
+          (comment.parentId === action.id)
             ? {...comment, 
-              parentId: true}
+              parentDeleted: true}
             : comment
         )
       default :
         return state
     }
-  } else {
-    return state
   }
 }
 

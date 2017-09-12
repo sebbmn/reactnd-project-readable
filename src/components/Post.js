@@ -13,7 +13,7 @@ class Post extends Component {
     return (
       <div className='post'>
         <h1>{post && post.title}</h1>
-        <Content contentId={match.params.postId}></Content>
+        <Content contentId={match.params.postId} isPost={true}></Content>
         <CommentsList postId={match.params.postId}></CommentsList>
       </div>
     )

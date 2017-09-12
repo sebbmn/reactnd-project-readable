@@ -14,7 +14,7 @@ class CommentsList extends Component {
         <h1>Comments</h1>
         {commentsList[0] && commentsList.map((comment) => (
           <div key={comment.id}>
-            <Content contentId={comment.id}></Content>
+            <Content contentId={comment.id} isPost={false}></Content>
           </div>
         ))}
       </div>
