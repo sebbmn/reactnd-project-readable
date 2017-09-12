@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Content from './Content'
-import { addContent, updateContent, deleteContent } from '../actions'
 
 class CommentsList extends Component {
 
   render () {
-    const { postId, comments } = this.props
-    const commentsList = comments.filter(comment => comment.parentId === postId)
+    const { postId, comments, contents } = this.props
+
+    const activeComments = comments.filter(comment => contents.find(c => c.id === comment.id) && contents.find(c => c.id === comment.id).deleted !== true)
+    const commentsList = activeComments.filter(comment => comment.parentId === postId)
 
     return (
       <div className='comments'>
@@ -22,21 +23,13 @@ class CommentsList extends Component {
   }
 }
 
-function mapStateToProps ({ comments }) {
+function mapStateToProps ({ comments, contents }) {
   return {
-    comments
-  }
-}
-
-function mapDispatchToProps (dispatch) {
-  return { 
-    add: (data) => dispatch(addContent(data)),
-    update: (data) => dispatch(updateContent(data)),
-    delete: (data) => dispatch(deleteContent(data)) 
+    comments,
+    contents
   }
 }
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(CommentsList)

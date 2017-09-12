@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { addContent, updateContent, deleteContent } from '../actions'
 
 class PostsList extends Component {
   render () {
-    const { category,posts } = this.props
-    const postsList = category ? posts.filter(post => post.category === category) : posts
+    const { category, posts, contents } = this.props
+
+    const activePosts = posts.filter(post => contents.find(c => c.id === post.id) && contents.find(c => c.id === post.id).deleted !== true)
+    const postsList = category ? activePosts.filter(post => post.category === category) : activePosts
 
     return (
       <ul className='posts' key='hafhjfa'>
@@ -23,21 +24,13 @@ class PostsList extends Component {
   }
 }
 
-function mapStateToProps ({ posts }) {
+function mapStateToProps ({ posts, contents }) {
   return {
-    posts
-  }
-}
-
-function mapDispatchToProps (dispatch) {
-  return { 
-    add: (data) => dispatch(addContent(data)),
-    update: (data) => dispatch(updateContent(data)),
-    delete: (data) => dispatch(deleteContent(data)) 
+    posts,
+    contents,
   }
 }
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(PostsList)

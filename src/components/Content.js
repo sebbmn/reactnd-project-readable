@@ -2,13 +2,26 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { deleteContent } from '../actions'
+import { Redirect } from 'react-router'
 
 class Content extends Component {
+  state = {
+    fireRedirect: false,
+  }
   
+  deleteThisContent = (content) => {
+    this.props.deleteC(content)
+    this.setState({ fireRedirect: true })
+  }
   render () {
-    const { contentId, isPost, contentClass, contents, deleteC } = this.props
+    const { contentId, isPost, contentClass, contents, comments } = this.props
+    const { fireRedirect } = this.state
     const content = contents.find(content => content.id === contentId)
+    let parentId = ''
 
+    if(!isPost){
+      parentId = comments.find(c => c.id === contentId) && comments.find(c => c.id === contentId).parentId
+    }
     return (
       <div className={contentClass}>
         <div className='content-id'>ID: {content && content.id}</div>
@@ -17,16 +30,20 @@ class Content extends Component {
         <div className='content-author'>Author: {content && content.author}</div>
         <div className='content-votescore'>Votescore: {content && content.voteScore}</div>
         <div className='content-deleted'>Deleted: {content && content.deleted}</div>
-        <button onClick={ () => deleteC({ id:contentId})}>delete</button>
+        <button onClick={ () => this.deleteThisContent({ id:contentId})}>delete</button>
         <br/>
         <Link to={`/edit/${contentId}`}>Edit</Link>
+        {fireRedirect && (isPost && (
+          <Redirect to={`/`}/>
+        ))}
       </div>
     )
   }
 }
-function mapStateToProps ({ contents }) {
+function mapStateToProps ({ contents, comments }) {
   return {
-    contents
+    contents,
+    comments
   }
 }
 function mapDispatchToProps (dispatch) {
