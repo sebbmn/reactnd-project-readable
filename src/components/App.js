@@ -8,7 +8,7 @@ import Post from './Post'
 import Home from './Home'
 import Category from './Category'
 import Header from './Header'
-import EditContent from './EditContent'
+import CreateEditContent from './CreateEditContent'
 
 
 import { addContent, updateContent, deleteContent, addCategory } from '../actions'
@@ -60,7 +60,8 @@ class App extends Component {
           <Route path='/category/:categoryName' component={Category}/>
           <Route exact path='/post' component={Post}/>
           <Route path='/post/:postId' component={Post}/>
-          <Route path='/edit/:contentId' component={EditContent}/>
+          <Route path='/edit/:contentId' component={CreateEditContent}/>
+          <Route path='/new' component={CreateEditContent}/>
         </Switch>
       </div>
     );

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { updateContent } from '../actions'
+import { updateContent, addContent } from '../actions'
 import { Redirect } from 'react-router'
 
-class EditContent extends Component {
+class CreateEditContent extends Component {
   state = {
     textAreaValue: '',
     fireRedirect: false,
@@ -14,12 +14,17 @@ class EditContent extends Component {
   handleSubmit = (event) => {
     event.preventDefault()
     this.setState({ fireRedirect: true })
-    this.props.updateC({ id: this.props.match.params.contentId, body: this.state.textAreaValue, voteScore: 666 })
+    if(this.props.contentId) {
+      this.props.updateC({ id: this.props.contentId, body: this.state.textAreaValue, voteScore: 666 })
+    } else {
+      this.props.addC({ id: 'dsfsdffd', parentId: '', timestamp: Date.now, title: 'nouveau contenu', body: 'ceci est un contenu de test', author: 'seb', category: 'udacity' })
+    }
+    
   }
   render () {
-    const { match, contentClass, contents } = this.props
+    const { contentId, contentClass, contents } = this.props
     const { fireRedirect, textAreaValue } = this.state
-    const content = contents.find(content => content.id === match.params.contentId)
+    const content = contents.find(content => content.id === contentId)
     
     const currentValue = textAreaValue ? textAreaValue : content && content.body
 
@@ -27,16 +32,19 @@ class EditContent extends Component {
       <div className={contentClass}>
         <form onSubmit={this.handleSubmit}>
           <label>
-            Name: {match.params.contentId}
+            Name: {contentId}
             <br/>
             <textarea value={currentValue} onChange={this.handleChange}/>
           </label>
           <br/>
           <input type="submit" value="Submit" />
         </form>
-        {fireRedirect && (
-          <Redirect to={`/post/${match.params.contentId}`}/>
-        )}
+        {fireRedirect && (contentId ?
+        (
+          <Redirect to={`/post/${contentId}`}/>
+        ) : (
+          <Redirect to={`/post/dsfsdffd`}/>
+        ))}
       </div>
     )
   }
@@ -49,9 +57,10 @@ function mapStateToProps ({ contents }) {
 function mapDispatchToProps (dispatch) {
   return { 
     updateC: (data) => dispatch(updateContent(data)),
+    addC: (data) => dispatch(addContent(data))
   }
 }
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(EditContent)
+)(CreateEditContent)

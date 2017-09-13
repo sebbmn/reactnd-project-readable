@@ -32,7 +32,6 @@ class Content extends Component {
         <div className='content-deleted'>Deleted: {content && content.deleted}</div>
         <button onClick={ () => this.deleteThisContent({ id:contentId})}>delete</button>
         <br/>
-        <Link to={`/edit/${contentId}`}>Edit</Link>
         {fireRedirect && (isPost && (
           <Redirect to={`/`}/>
         ))}

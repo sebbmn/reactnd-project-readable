@@ -16,7 +16,10 @@ class Header extends Component {
         </div>
         <p className="App-intro">
           Here the api test for now...
-        </p>
+        </p>          
+        <nav>
+            <Link to='/new'>New</Link>
+        </nav>
         <nav>
           <Link to='/'>Home</Link>
         </nav>
