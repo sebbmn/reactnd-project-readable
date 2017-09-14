@@ -13,7 +13,7 @@ class PostsList extends Component {
       <ul className='posts' key='hafhjfa'>
         {postsList[0] && postsList.map((post) => (
           <li key={post.id}>
-            <Link to={`/post/${post.id}`}>
+            <Link to={`/${post.category}/${post.id}`}>
               <h1 key={post.id}>{post.title}</h1>
             </Link>
             <div>Category: {post.category}</div>

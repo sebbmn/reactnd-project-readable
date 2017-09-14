@@ -7,8 +7,8 @@ class Category extends Component {
 
     return (
       <div className='category'>
-        <h1>{match.params.categoryName}</h1>
-        <PostsList category={match.params.categoryName}></PostsList>
+        <h1>{match.params.category}</h1>
+        <PostsList category={match.params.category}></PostsList>
       </div>
     )
   }

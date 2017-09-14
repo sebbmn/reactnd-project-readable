@@ -7,16 +7,16 @@ class Post extends Component {
   render () {
     const {match, contents, posts} = this.props
 
-    const content = contents.find(content => content.id === match.params.postId)
-    const post = posts.find(p => p.id === match.params.postId)
+    const content = contents.find(content => content.id === match.params.post_id)
+    const post = posts.find(p => p.id === match.params.post_id)
 
     return (
       <div className='post'>
         {post && (!content.deleted ? (
           <div>
             <h1>{post && post.title}</h1>
-            <Content contentId={match.params.postId} isPost={true}></Content>
-            <CommentsList postId={match.params.postId}></CommentsList>
+            <Content contentId={match.params.post_id} isPost={true}></Content>
+            <CommentsList postId={match.params.post_id}></CommentsList>
         </div>
         ) : (
           <div>This post has been deleted</div>

@@ -56,10 +56,8 @@ class App extends Component {
         <Header></Header>
         <Switch>
           <Route exact path='/' component={Home}/>
-          <Route exact path='/category' component={Category}/>
-          <Route path='/category/:categoryName' component={Category}/>
-          <Route exact path='/post' component={Post}/>
-          <Route path='/post/:postId' component={Post}/>
+          <Route exact path='/:category' component={Category}/>
+          <Route path='/:category/:post_id' component={Post}/>
           <Route path='/edit/:contentId' component={CreateEditContent}/>
           <Route path='/new' component={CreateEditContent}/>
         </Switch>
