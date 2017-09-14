@@ -23,7 +23,7 @@ class Content extends Component {
       <div className={contentClass}>
         <button onClick={this.editMode}>edit</button>
         {editMode ? (
-          <CreateEditContent contentId={contentId} isPost={isPost}></CreateEditContent>          
+          <CreateEditContent contentId={contentId} isPost={isPost} editMode={this.editMode}></CreateEditContent>          
         ) : (
           <div>
             <DisplayContent contentId={contentId} isPost={isPost}></DisplayContent>

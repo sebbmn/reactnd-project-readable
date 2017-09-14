@@ -1,57 +1,63 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { updateContent, addContent } from '../actions'
-import { Redirect } from 'react-router'
 
 class CreateEditContent extends Component {
   state = {
-    textAreaValue: '',
-    fireRedirect: false,
+    formContent: {}
   }
-  handleChange = (event) => {
-    this.setState({textAreaValue: event.target.value})
+  handleChangeBody = (event) => {
+    this.setState({formContent: {body: event.target.value}})
   }
   handleSubmit = (event) => {
     event.preventDefault()
-    this.setState({ fireRedirect: true })
+    this.props.editMode()
+
     if(this.props.contentId) {
-      this.props.updateC({ id: this.props.contentId, body: this.state.textAreaValue, voteScore: 666 })
+      this.props.updateC({ id: this.props.contentId, body: this.state.formContent.body, voteScore: 666 })
     } else {
-      this.props.addC({ id: 'dsfsdffd', parentId: '', timestamp: new Date.now, title: 'nouveau contenu', body: 'ceci est un contenu de test', author: 'seb', category: 'udacity' })
+      //this.props.addC({ id: 'dsfsdffd', parentId: '', timestamp: new Date.now, title: 'nouveau contenu', body: 'ceci est un contenu de test', author: 'seb', category: 'udacity' })
     }
     
   }
   render () {
-    const { contentId, contentClass, contents } = this.props
-    const { fireRedirect, textAreaValue } = this.state
-    const content = contents.find(content => content.id === contentId)
+    const { contentId, contentClass, isPost, contents, posts, comments } = this.props
+    const { formContent } = this.state
     
-    const currentValue = textAreaValue ? textAreaValue : content && content.body
+    const content = contents.find(content => content.id === contentId)
+
+    let comment
+    let post
+
+    if(!isPost){
+      comment = comments.find(c => c.id === contentId)
+    } else {
+      post = posts.find( p => p.id === contentId )
+    }
+    
+    const body = (formContent.body !== null) ? formContent.body : content && content.body
+    const voteScore = (formContent.voteScore !== null) ? formContent.voteScore : content && content.voteScore
 
     return (
       <div className={contentClass}>
         <form onSubmit={this.handleSubmit}>
           <label>
-            Name: {contentId}
+            Name: {post && post.title}
             <br/>
-            <textarea value={currentValue} onChange={this.handleChange}/>
+            <textarea value={body} onChange={this.handleChangeBody}/>
           </label>
           <br/>
           <input type="submit" value="Submit" />
         </form>
-        {fireRedirect && (contentId ?
-        (
-          <Redirect to={`/post/${contentId}`}/>
-        ) : (
-          <Redirect to={`/post/dsfsdffd`}/>
-        ))}
       </div>
     )
   }
 }
-function mapStateToProps ({ contents }) {
+function mapStateToProps ({ contents, posts, comments }) {
   return {
     contents,
+    posts,
+    comments
   }
 }
 function mapDispatchToProps (dispatch) {
