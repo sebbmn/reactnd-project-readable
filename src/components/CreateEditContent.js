@@ -17,7 +17,7 @@ class CreateEditContent extends Component {
     if(this.props.contentId) {
       this.props.updateC({ id: this.props.contentId, body: this.state.textAreaValue, voteScore: 666 })
     } else {
-      this.props.addC({ id: 'dsfsdffd', parentId: '', timestamp: Date.now, title: 'nouveau contenu', body: 'ceci est un contenu de test', author: 'seb', category: 'udacity' })
+      this.props.addC({ id: 'dsfsdffd', parentId: '', timestamp: new Date.now, title: 'nouveau contenu', body: 'ceci est un contenu de test', author: 'seb', category: 'udacity' })
     }
     
   }
