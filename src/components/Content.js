@@ -36,7 +36,7 @@ class Content extends Component {
 }
 function mapDispatchToProps (dispatch) {
   return { 
-    deleteC: (data) => dispatch(deleteContent(data)) 
+    deleteC: (data) => dispatch(deleteContent(data))
   }
 }
 export default connect(

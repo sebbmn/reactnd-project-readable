@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { updateContent } from '../actions'
 
 class DisplayContent extends Component {
 
   render () {
-    const { contentId, isPost, contentClass, contents, comments, posts } = this.props
+    const { contentId, isPost, contentClass, contents, comments, posts, updateC } = this.props
 
     const content = contents.find(content => content.id === contentId)
 
@@ -30,6 +31,8 @@ class DisplayContent extends Component {
           <div className='post-category'>Category: {post && post.category}</div>
         )}
         <div className='content-votescore'>Votescore: {content && content.voteScore}</div>
+        <button onClick={() => updateC({id: content.id, body: content.body, voteScore: content.voteScore+1})}>+</button>
+        <button onClick={() => updateC({id: content.id, body: content.body, voteScore: content.voteScore-1})}>-</button>
         <div className='content-deleted'>Deleted: {content && content.deleted.toString()}</div>
         {!isPost && (
         <div className='comment-parent-deleteted'>Parent Deleted: {comment && comment.parentDeleted.toString()}</div>
@@ -45,6 +48,12 @@ function mapStateToProps ({ contents, posts, comments }) {
     comments
   }
 }
+function mapDispatchToProps (dispatch) {
+  return { 
+    updateC: (data) => dispatch(updateContent(data))
+  }
+}
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(DisplayContent)
