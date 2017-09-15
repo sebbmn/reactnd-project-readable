@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import logo from './logo.svg'
+import { PageHeader, Navbar, Nav, NavItem, Glyphicon } from 'react-bootstrap'
+import { IndexLinkContainer } from 'react-router-bootstrap'
 
 class Header extends Component {
 
@@ -9,26 +10,25 @@ class Header extends Component {
     const { categories } = this.props
 
     return (
-      <header>
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          Here the api test for now...
-        </p>          
-        <nav>
-            <Link to='/new'>New</Link>
-        </nav>
-        <nav>
-          <Link to='/'>Home</Link>
-        </nav>
-          {categories[0] && categories.map( cat => (
-            <nav key={cat.name}>
-              <Link key={cat.name} to={`/${cat.path}`}>{cat.name}</Link>
-            </nav>
-          ))}
-      </header>
+      <PageHeader>
+        <Navbar collapseOnSelect fluid>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <Link to='/'><Glyphicon glyph="home" /></Link>
+            </Navbar.Brand>
+            <Navbar.Toggle />
+          </Navbar.Header>
+          <Navbar.Collapse>
+            <Nav>
+              {categories[0] && categories.map( cat => (
+                <IndexLinkContainer key={cat.name}to={`/${cat.path}`}>
+                  <NavItem>{cat.name}</NavItem>
+                </IndexLinkContainer>
+              ))}
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+      </PageHeader>
     )
   }
 }

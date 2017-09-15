@@ -6,12 +6,8 @@ class Category extends Component {
     const { match } = this.props
 
     return (
-      <div className='category'>
-        <h1>{match.params.category}</h1>
-        <PostsList category={match.params.category}></PostsList>
-      </div>
+      <PostsList category={match.params.category}></PostsList>
     )
   }
 }
-
 export default Category

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { updateContent } from '../actions'
+import { Button } from 'react-bootstrap'
 
 class DisplayContent extends Component {
 
@@ -31,8 +32,8 @@ class DisplayContent extends Component {
           <div className='post-category'>Category: {post && post.category}</div>
         )}
         <div className='content-votescore'>Votescore: {content && content.voteScore}</div>
-        <button onClick={() => updateC({id: content.id, body: content.body, voteScore: content.voteScore+1})}>+</button>
-        <button onClick={() => updateC({id: content.id, body: content.body, voteScore: content.voteScore-1})}>-</button>
+        <Button bsStyle="primary" onClick={() => updateC({id: content.id, body: content.body, voteScore: content.voteScore+1})}>+</Button>
+        <Button bsStyle="primary" onClick={() => updateC({id: content.id, body: content.body, voteScore: content.voteScore-1})}>-</Button>
         <div className='content-deleted'>Deleted: {content && content.deleted.toString()}</div>
         {!isPost && (
         <div className='comment-parent-deleteted'>Parent Deleted: {comment && comment.parentDeleted.toString()}</div>
