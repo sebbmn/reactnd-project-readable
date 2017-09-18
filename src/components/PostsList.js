@@ -2,23 +2,27 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Table } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
+import { updateContent } from '../actions'
 
 class PostsList extends Component {
   render () {
-    const { category, posts, contents } = this.props
+    const { category, posts, comments, contents, updateC } = this.props
 
     const activePosts = posts.filter(post => contents.find(c => c.id === post.id) && contents.find(c => c.id === post.id).deleted !== true)
     const postsList = category ? activePosts.filter(post => post.category === category) : activePosts
 
     return (
-      <Table striped bordered condensed hover>
+      <Table striped bordered condensed>
         <thead>
           <tr>
             <th>#</th>
             <th>Title</th>
-            <th>Category</th>
+            <th>Author</th>
+            <th>Comments</th>
             <th>Vote Score</th>
             <th>Date</th>
+            <th>Edit</th>
           </tr>
         </thead>
         <tbody>
@@ -30,9 +34,23 @@ class PostsList extends Component {
                   {post.title}
                 </Link>
               </td>
-              <td>{post.category}</td>
-              <td>{contents.find(content => post.id === content.id).voteScore}</td>
+              <td>{contents.find(c => c.id === post.id) && contents.find(c => c.id === post.id).author}</td>
+              <td>
+                {comments.reduce( (sum, value) => {
+
+                  if((value.parentId === post.id) && !contents.find(c => c.id === value.id).deleted) {
+                    sum = sum +1
+                  }
+                  return sum
+                },0)}
+              </td>
+              <td>
+                <Button bsSize="xsmall" >+</Button>
+                <Button bsSize="xsmall">-</Button>
+                <span>{contents.find(content => post.id === content.id).voteScore}</span>
+              </td>
               <td>{new Date(contents.find(content => post.id === content.id).timestamp).toUTCString()}</td>
+              <td>edit link</td>
             </tr>
           ))}
         </tbody>
@@ -40,14 +58,20 @@ class PostsList extends Component {
     )
   }
 }
-
-function mapStateToProps ({ posts, contents }) {
+function mapDispatchToProps (dispatch) {
+  return { 
+    updateC: (data) => dispatch(updateContent(data))
+  }
+}
+function mapStateToProps ({ posts, contents, comments }) {
   return {
     posts,
     contents,
+    comments,
   }
 }
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps,
 )(PostsList)
