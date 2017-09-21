@@ -80,7 +80,7 @@ function contents(state = [], action) {
           timestamp: timestamp,
           body: body,
           author: author,
-          voteScore: 1,
+          voteScore: 0,
           deleted: false,
         }
       ]

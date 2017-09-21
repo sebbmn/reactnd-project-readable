@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Table } from 'react-bootstrap'
-import { Button } from 'react-bootstrap'
+import { Button, ButtonToolbar, Glyphicon } from 'react-bootstrap'
 import { updateVoteScore } from '../actions'
 
 class PostsList extends Component {
@@ -20,7 +20,8 @@ class PostsList extends Component {
             <th>Title</th>
             <th>Author</th>
             <th>Comments</th>
-            <th>Vote Score</th>
+            <th>Vote</th>
+            <th>Score</th>
             <th>Date</th>
             <th>Edit</th>
           </tr>
@@ -45,10 +46,16 @@ class PostsList extends Component {
                 },0)}
               </td>
               <td>
-                <Button bsSize="xsmall" onClick={() => updateVote({id: post.id, vote:1})}>+</Button>
-                <Button bsSize="xsmall" onClick={() => updateVote({id: post.id, vote:-1})}>-</Button>
-                <span>{contents.find(content => post.id === content.id).voteScore}</span>
+                <ButtonToolbar>
+                  <Button bsStyle="default" bsSize="xs" onClick={() => updateVote({id: post.id, vote:1})}>
+                    <Glyphicon glyph="thumbs-up" style={{color: 'green'}}/>
+                  </Button>
+                  <Button bsStyle="default" bsSize="xs" onClick={() => updateVote({id: post.id, vote:-1})}>
+                    <Glyphicon glyph="thumbs-down" style={{color: 'red'}}/>
+                  </Button>
+                </ButtonToolbar>   
               </td>
+              <td>{contents.find(content => post.id === content.id).voteScore}</td>
               <td>{new Date(contents.find(content => post.id === content.id).timestamp).toUTCString()}</td>
               <td>edit link</td>
             </tr>

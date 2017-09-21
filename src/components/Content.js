@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { deleteContent } from '../actions'
 import CreateEditContent from './CreateEditContent'
 import DisplayContent from './DisplayContent'
-import { Button, ButtonToolbar, Glyphicon } from 'react-bootstrap'
+import { Button, ButtonToolbar } from 'react-bootstrap'
 
 class Content extends Component {
   state = {
