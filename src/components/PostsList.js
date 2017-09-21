@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Table } from 'react-bootstrap'
 import { Button } from 'react-bootstrap'
-import { updateContent } from '../actions'
+import { updateVoteScore } from '../actions'
 
 class PostsList extends Component {
   render () {
-    const { category, posts, comments, contents, updateC } = this.props
+    const { category, posts, comments, contents, updateVote } = this.props
 
     const activePosts = posts.filter(post => contents.find(c => c.id === post.id) && contents.find(c => c.id === post.id).deleted !== true)
     const postsList = category ? activePosts.filter(post => post.category === category) : activePosts
@@ -45,8 +45,8 @@ class PostsList extends Component {
                 },0)}
               </td>
               <td>
-                <Button bsSize="xsmall" >+</Button>
-                <Button bsSize="xsmall">-</Button>
+                <Button bsSize="xsmall" onClick={() => updateVote({id: post.id, vote:1})}>+</Button>
+                <Button bsSize="xsmall" onClick={() => updateVote({id: post.id, vote:-1})}>-</Button>
                 <span>{contents.find(content => post.id === content.id).voteScore}</span>
               </td>
               <td>{new Date(contents.find(content => post.id === content.id).timestamp).toUTCString()}</td>
@@ -60,7 +60,7 @@ class PostsList extends Component {
 }
 function mapDispatchToProps (dispatch) {
   return { 
-    updateC: (data) => dispatch(updateContent(data))
+    updateVote: (data) => dispatch(updateVoteScore(data))
   }
 }
 function mapStateToProps ({ posts, contents, comments }) {

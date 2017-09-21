@@ -1,8 +1,9 @@
 export const ADD_CONTENT = 'ADD_CONTENT'
-export const UPDATE_CONTENT = 'UPDATE_CONTENT'
+export const UPDATE_BODY = 'UPDATE_BODY'
 export const DELETE_CONTENT = 'DELETE_CONTENT'
 export const ADD_CATEGORY = 'ADD_CATEGORY'
 export const UPDATE_BUFFER = 'UPDATE_BUFFER'
+export const UPDATE_VOTESCORE = 'UPDATE_VOTESCORE'
 
 export function addContent ({ id, parentId, timestamp, title, body, author, category }) {
   return {
@@ -17,12 +18,19 @@ export function addContent ({ id, parentId, timestamp, title, body, author, cate
   }
 }
 
-export function updateContent ({ id, body, voteScore }) {
+export function updateContent ({ id, body }) {
   return {
-    type: UPDATE_CONTENT,
+    type: UPDATE_BODY,
     id,
     body,
-    voteScore,
+  }
+}
+
+export function updateVoteScore ({ id, vote }) {
+  return {
+    type: UPDATE_VOTESCORE,
+    id,
+    vote,
   }
 }
 

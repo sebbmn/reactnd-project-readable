@@ -2,7 +2,8 @@ import { combineReducers } from 'redux'
 
 import {
   ADD_CONTENT,
-  UPDATE_CONTENT,
+  UPDATE_BODY,
+  UPDATE_VOTESCORE,
   DELETE_CONTENT,
   ADD_CATEGORY,
   UPDATE_BUFFER,
@@ -68,7 +69,7 @@ function comments(state = [], action) {
 }
 
 function contents(state = [], action) {
-  const { id, timestamp, body, author, voteScore } = action
+  const { id, timestamp, body, author, vote } = action
 
   switch (action.type) {
     case ADD_CONTENT:
@@ -83,12 +84,18 @@ function contents(state = [], action) {
           deleted: false,
         }
       ]
-    case UPDATE_CONTENT:
+    case UPDATE_BODY:
       return state.map( content =>
         (content.id === action.id)
           ? {...content, 
-            body: body,
-            voteScore: voteScore}
+            body: body}
+          : content
+      )
+    case UPDATE_VOTESCORE:
+      return state.map( content =>
+        (content.id === action.id)
+          ? {...content, 
+            voteScore: content.voteScore+action.vote}
           : content
       )
     case DELETE_CONTENT:
