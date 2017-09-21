@@ -1,44 +1,47 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { updateVoteScore } from '../actions'
-import { Button } from 'react-bootstrap'
+import { Button, ButtonToolbar, Glyphicon, Panel } from 'react-bootstrap'
 
 class DisplayContent extends Component {
 
   render () {
-    const { contentId, isPost, contentClass, contents, comments, posts, updateVote } = this.props
+    // const { contentId, isPost, contents, comments, posts, updateVote } = this.props
+    const { contentId, isPost, contents, updateVote } = this.props
 
     const content = contents.find(content => content.id === contentId)
 
-    let comment
-    let post
+    //let comment
+    //let post
 
     if(!isPost){
-      comment = comments.find(c => c.id === contentId)
+    //  comment = comments.find(c => c.id === contentId)
     } else {
-      post = posts.find( p => p.id === contentId )
+      //post = posts.find( p => p.id === contentId )
     }
 
     return (
-      <div className={contentClass}>
-        <div className='content-id'>ID: {content && content.id}</div>
-        {!isPost && (
-          <div className='comment-parent-id'>Parent ID: {comment && comment.parentId}</div>
-        )}
-        <div className='content-timestamp'>Timestamp: {content && new Date(content.timestamp).toUTCString()}</div>
-        <div className='content-body'>Body: {content && content.body}</div>
-        <div className='content-author'>Author: {content && content.author}</div>
-        {isPost && (
-          <div className='post-category'>Category: {post && post.category}</div>
-        )}
-        <div className='content-votescore'>Votescore: {content && content.voteScore}</div>
-        <Button bsStyle="primary" onClick={() => updateVote({id: content.id, vote:1})}>+</Button>
-        <Button bsStyle="primary" onClick={() => updateVote({id: content.id, vote:-1})}>-</Button>
-        <div className='content-deleted'>Deleted: {content && content.deleted.toString()}</div>
-        {!isPost && (
-        <div className='comment-parent-deleteted'>Parent Deleted: {comment && comment.parentDeleted.toString()}</div>
-        )}
-      </div>
+      <Panel 
+        header={
+          `Posted by ${content && content.author}  ${content && new Date(content.timestamp).toUTCString()}`
+        }
+        footer={
+          <div>
+            <ButtonToolbar>
+              {content.voteScore}
+              <Button bsStyle="default" bsSize="xs" onClick={() => updateVote({id: content.id, vote:1})}>
+                <Glyphicon glyph="thumbs-up" style={{color: 'green'}}/>
+              </Button>
+              <Button bsStyle="default" bsSize="xs" onClick={() => updateVote({id: content.id, vote:-1})}>
+                <Glyphicon glyph="thumbs-down" style={{color: 'red'}}/>
+              </Button>
+            </ButtonToolbar>
+          </div>  
+        }
+        >
+        <div className='content-body'>{content && content.body}
+        </div>
+      </Panel>
     )
   }
 }

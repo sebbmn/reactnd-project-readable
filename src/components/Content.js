@@ -21,15 +21,15 @@ class Content extends Component {
 
     return (
       <div className={contentClass}>
-        <button onClick={this.editMode}>edit</button>
         {editMode ? (
           <CreateEditContent contentId={contentId} isPost={isPost} editMode={this.editMode}></CreateEditContent>          
         ) : (
           <div>
             <DisplayContent contentId={contentId} isPost={isPost}></DisplayContent>
-            <button onClick={ () => this.deleteThisContent({ id:contentId})}>delete</button>
           </div>
         )}
+        <button onClick={this.editMode}>edit</button>
+        <button onClick={ () => this.deleteThisContent({ id:contentId})}>delete</button>
       </div>
     )
   }

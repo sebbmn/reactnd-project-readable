@@ -14,10 +14,10 @@ class Post extends Component {
       <div className='post'>
         {post && (!content.deleted ? (
           <div>
-            <h1>{post && post.title}</h1>
+            <h3>{post && post.title}</h3>
             <Content contentId={match.params.post_id} isPost={true}></Content>
             <CommentsList postId={match.params.post_id}></CommentsList>
-        </div>
+          </div>
         ) : (
           <div>This post has been deleted</div>
         ))}

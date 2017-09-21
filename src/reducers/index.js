@@ -69,7 +69,7 @@ function comments(state = [], action) {
 }
 
 function contents(state = [], action) {
-  const { id, timestamp, body, author, vote } = action
+  const { id, timestamp, body, author } = action
 
   switch (action.type) {
     case ADD_CONTENT:
