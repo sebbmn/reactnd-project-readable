@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { deleteContent } from '../actions'
 import CreateEditContent from './CreateEditContent'
 import DisplayContent from './DisplayContent'
+import { Button, ButtonToolbar, Glyphicon } from 'react-bootstrap'
 
 class Content extends Component {
   state = {
@@ -28,8 +29,14 @@ class Content extends Component {
             <DisplayContent contentId={contentId} isPost={isPost}></DisplayContent>
           </div>
         )}
-        <button onClick={this.editMode}>edit</button>
-        <button onClick={ () => this.deleteThisContent({ id:contentId})}>delete</button>
+        <ButtonToolbar>
+          <Button bsStyle="default" bsSize="xs" onClick={this.editMode}>
+            edit
+          </Button>
+          <Button bsStyle="default" bsSize="xs" onClick={ () => this.deleteThisContent({ id:contentId})}>
+            delete
+          </Button>
+        </ButtonToolbar>
       </div>
     )
   }
