@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { deleteContent } from '../actions'
-import CreateEditContent from './CreateEditContent'
+import EditContent from './EditContent'
 import DisplayContent from './DisplayContent'
 import { Button, ButtonToolbar } from 'react-bootstrap'
 
@@ -23,20 +23,20 @@ class Content extends Component {
     return (
       <div className={contentClass}>
         {editMode ? (
-          <CreateEditContent contentId={contentId} isPost={isPost} editMode={this.editMode}></CreateEditContent>          
+          <EditContent contentId={contentId} isPost={isPost} editMode={this.editMode}></EditContent>          
         ) : (
           <div>
+            <ButtonToolbar>
+              <Button bsStyle="default" bsSize="xs" onClick={this.editMode}>
+                edit
+              </Button>
+              <Button bsStyle="default" bsSize="xs" onClick={ () => this.deleteThisContent({ id:contentId})}>
+                delete
+              </Button>
+            </ButtonToolbar>
             <DisplayContent contentId={contentId} isPost={isPost}></DisplayContent>
           </div>
         )}
-        <ButtonToolbar>
-          <Button bsStyle="default" bsSize="xs" onClick={this.editMode}>
-            edit
-          </Button>
-          <Button bsStyle="default" bsSize="xs" onClick={ () => this.deleteThisContent({ id:contentId})}>
-            delete
-          </Button>
-        </ButtonToolbar>
       </div>
     )
   }

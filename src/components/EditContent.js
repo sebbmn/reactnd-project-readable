@@ -1,20 +1,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { updateContent, addContent } from '../actions'
+import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap'
 
-class CreateEditContent extends Component {
+class EditContent extends Component {
   state = {
-    formContent: {}
+    formContent: null
   }
   handleChangeBody = (event) => {
-    this.setState({formContent: {body: event.target.value}})
+    this.setState({formContent:event.target.value})
   }
   handleSubmit = (event) => {
     event.preventDefault()
     this.props.editMode()
 
     if(this.props.contentId) {
-      this.props.updateC({ id: this.props.contentId, body: this.state.formContent.body, voteScore: 666 })
+      this.props.updateC({ id: this.props.contentId, body: this.state.formContent })
     } else {
       //this.props.addC({ id: 'dsfsdffd', parentId: '', timestamp: new Date.now, title: 'nouveau contenu', body: 'ceci est un contenu de test', author: 'seb', category: 'udacity' })
     }
@@ -35,21 +36,23 @@ class CreateEditContent extends Component {
       post = posts.find( p => p.id === contentId )
     }
     
-    const body = (formContent.body !== null) ? formContent.body : content && content.body
-    const voteScore = (formContent.voteScore !== null) ? formContent.voteScore : content && content.voteScore
+    const body = (formContent !== null) ? formContent : content && content.body
 
     return (
-      <div className={contentClass}>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Name: {post && post.title}
-            <br/>
-            <textarea value={body} onChange={this.handleChangeBody}/>
-          </label>
-          <br/>
-          <input type="submit" value="Submit" />
-        </form>
-      </div>
+      <form onSubmit={this.handleSubmit}>
+        <FormGroup controlId="formControlsTextarea">
+          <ControlLabel>
+            {`Posted by ${content && content.author}  ${content && new Date(content.timestamp).toUTCString()}`}
+          </ControlLabel>
+          <FormControl componentClass="textarea" value={body} onChange={this.handleChangeBody}/>
+        </FormGroup>
+        <Button type="submit">
+          Submit
+        </Button>
+        <Button onClick={this.props.editMode}>
+          Cancel
+        </Button>
+      </form>
     )
   }
 }
@@ -69,4 +72,4 @@ function mapDispatchToProps (dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CreateEditContent)
+)(EditContent)
