@@ -1,39 +1,88 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { updateContent, addContent } from '../actions'
+import { addContent } from '../actions'
 import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap'
+import { Redirect } from 'react-router'
 
 class AddContent extends Component {
+  state = {
+    title: '',
+    body: '',
+    author: '',
+    category: '',
+    fireRedirect: false
+  }
   handleSubmit = (event) => {
     event.preventDefault()
-    this.props.addC({ id: 'dsfsdffd', parentId: '', timestamp: Date.now(), title: 'nouveau contenu', body: 'ceci est un contenu de test', author: 'seb', category: 'udacity' })
+    //console.log(this.state.title)
+    this.props.addC({ id: 'dsfsdffd'+this.state.title, parentId: '', timestamp: Date.now(), title: this.state.title, body: this.state.body, author: this.state.author, category: this.state.category })
+    this.setState({fireRedirect: true})
   }
+  handleChangeTitle = (event) => {
+    this.setState({title:event.target.value})
+  }
+  handleChangeBody = (event) => {
+    this.setState({body:event.target.value})
+  }
+  handleChangeAuthor = (event) => {
+    this.setState({author:event.target.value})
+  }
+  handleChangeCategory = (event) => {
+    this.setState({category:event.target.value})
+  }
+
   render () {
-    const {contents, posts, comments } = this.props
+    const { parentId, categories } = this.props
+    const { title, body, author, category, fireRedirect } = this.state
 
     return (
       <form onSubmit={this.handleSubmit}>
         <FormGroup controlId="formControlsTextarea">
           <ControlLabel>
-            test
+            titre
           </ControlLabel>
-          <FormControl componentClass="textarea" value="ceci est un test" />
+          <FormControl type="text" value={title} onChange={this.handleChangeTitle}/>
         </FormGroup>
+
+        <FormGroup controlId="formControlsTextarea">
+          <ControlLabel>
+            author
+          </ControlLabel>
+          <FormControl type="text" value={author} onChange={this.handleChangeAuthor}/>
+        </FormGroup>
+        {!parentId &&
+        <FormGroup controlId="formControlsSelect">
+          <ControlLabel>Category</ControlLabel>
+          <FormControl componentClass="select" placeholder="select" value={category} onChange={this.handleChangeCategory}>
+            {categories && categories.map( c => (
+              <option value={c.name}>{c.name}</option>
+            ))}
+          </FormControl>
+        </FormGroup>
+        }
+        <FormGroup controlId="formControlsTextarea">
+          <ControlLabel>
+            Body
+          </ControlLabel>
+          <FormControl componentClass="textarea" value={body} onChange={this.handleChangeBody}/>
+        </FormGroup>
+
         <Button type="submit">
           Submit
         </Button>
         <Button>
           Cancel
         </Button>
+        {fireRedirect && (
+          <Redirect to={'/'}/>
+        )}
       </form>
     )
   }
 }
-function mapStateToProps ({ contents, posts, comments }) {
+function mapStateToProps ({ categories }) {
   return {
-    contents,
-    posts,
-    comments
+    categories
   }
 }
 function mapDispatchToProps (dispatch) {

@@ -22,19 +22,19 @@ class EditContent extends Component {
     
   }
   render () {
-    const { contentId, contentClass, isPost, contents, posts, comments } = this.props
+    const { contentId, contents } = this.props
     const { formContent } = this.state
     
     const content = contents.find(content => content.id === contentId)
 
-    let comment
-    let post
+//    let comment
+//    let post
 
-    if(!isPost){
-      comment = comments.find(c => c.id === contentId)
-    } else {
-      post = posts.find( p => p.id === contentId )
-    }
+ //   if(!isPost){
+ //     comment = comments.find(c => c.id === contentId)
+ //   } else {
+ //     post = posts.find( p => p.id === contentId )
+ //   }
     
     const body = (formContent !== null) ? formContent : content && content.body
 
