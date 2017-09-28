@@ -15,7 +15,7 @@ class AddContent extends Component {
   handleSubmit = (event) => {
     event.preventDefault()
     //console.log(this.state.title)
-    this.props.addC({ id: 'dsfsdffd'+this.state.title, parentId: '', timestamp: Date.now(), title: this.state.title, body: this.state.body, author: this.state.author, category: this.state.category })
+    this.props.addC({ id: 'dsfsdffd'+this.state.title, parentId: this.props.parentId, timestamp: Date.now(), title: this.state.title, body: this.state.body, author: this.state.author, category: this.state.category })
     this.setState({fireRedirect: true})
   }
   handleChangeTitle = (event) => {
@@ -37,12 +37,14 @@ class AddContent extends Component {
 
     return (
       <form onSubmit={this.handleSubmit}>
+        {!parentId &&
         <FormGroup controlId="formControlsTextarea">
           <ControlLabel>
             titre
           </ControlLabel>
           <FormControl type="text" value={title} onChange={this.handleChangeTitle}/>
         </FormGroup>
+        }
 
         <FormGroup controlId="formControlsTextarea">
           <ControlLabel>
@@ -50,6 +52,7 @@ class AddContent extends Component {
           </ControlLabel>
           <FormControl type="text" value={author} onChange={this.handleChangeAuthor}/>
         </FormGroup>
+
         {!parentId &&
         <FormGroup controlId="formControlsSelect">
           <ControlLabel>Category</ControlLabel>
@@ -60,6 +63,7 @@ class AddContent extends Component {
           </FormControl>
         </FormGroup>
         }
+
         <FormGroup controlId="formControlsTextarea">
           <ControlLabel>
             Body
