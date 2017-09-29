@@ -10,7 +10,7 @@ class AddContent extends Component {
     title: '',
     body: '',
     author: '',
-    category: '',
+    category: 'react',
     fireRedirect: false
   }
   handleSubmit = (event) => {
@@ -34,7 +34,11 @@ class AddContent extends Component {
   handleChangeCategory = (event) => {
     this.setState({category:event.target.value})
   }
-
+  componentDidMount = () =>{
+    if(this.props.match.params.origin) {
+      this.setState({category:this.props.match.params.origin})
+    }
+  }
   render () {
     const { parentId, categories, addMode } = this.props
     const { title, body, author, category, fireRedirect } = this.state

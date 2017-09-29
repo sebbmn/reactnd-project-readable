@@ -14,7 +14,7 @@ class PostsList extends Component {
 
     return (
       <div>
-        <Link to="/new">
+        <Link to={`/new/${category}`}>
           <Glyphicon glyph="plus-sign" style={{color: '#aaaaaa', fontSize: '14pt'}}/>
         </Link>
         <Table striped bordered condensed>
