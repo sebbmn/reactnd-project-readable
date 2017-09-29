@@ -4,6 +4,8 @@ export const DELETE_CONTENT = 'DELETE_CONTENT'
 export const ADD_CATEGORY = 'ADD_CATEGORY'
 export const UPDATE_BUFFER = 'UPDATE_BUFFER'
 export const UPDATE_VOTESCORE = 'UPDATE_VOTESCORE'
+export const SORT_BY_DATE = 'SORT_BY_DATE'
+export const SORT_BY_VOTE = 'SORT_BY_VOTE'
 
 export function addContent ({ id, parentId, timestamp, title, body, author, category }) {
   return {
@@ -53,5 +55,17 @@ export function updateBuffer ({content}) {
   return {
     type: UPDATE_BUFFER,
     content,
+  }
+}
+
+export function sortByDate () {
+  return {
+    type: SORT_BY_DATE,
+  }
+}
+
+export function sortByVotes () {
+  return {
+    type: SORT_BY_VOTE,
   }
 }

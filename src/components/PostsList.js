@@ -3,14 +3,28 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Table } from 'react-bootstrap'
 import { Button, ButtonToolbar, Glyphicon } from 'react-bootstrap'
-import { updateVoteScore, deleteContent } from '../actions'
+import { updateVoteScore, deleteContent, sortByDate, sortByVotes } from '../actions'
 
 class PostsList extends Component {
   render () {
-    const { category, posts, comments, contents, updateVote, deletePost, editPost } = this.props
+    const { category, posts, comments, contents, updateVote, deletePost, editPost, sort, sortByDate, sortByVotes } = this.props
 
     const activePosts = posts.filter(post => contents.find(c => c.id === post.id) && contents.find(c => c.id === post.id).deleted !== true)
-    const postsList = category ? activePosts.filter(post => post.category === category) : activePosts
+
+    let postsList = activePosts.map( (post) => {
+      return { ...post, ...contents.find(c => c.id === post.id) }
+    })
+
+    if(category) {
+      postsList = postsList.filter(post => post.category === category)
+    }
+
+    if(sort.order === 'VOTE') {
+      postsList.sort((a,b) => -1*(a.voteScore-b.voteScore))
+    } else if(sort.order === 'DATE') {
+      postsList.sort((a,b) => -1*(a.timestamp-b.timestamp))
+    }
+
 
     return (
       <div>
@@ -25,8 +39,18 @@ class PostsList extends Component {
               <th>Author</th>
               <th>Comments</th>
               <th>Vote</th>
-              <th>Score</th>
-              <th>Date</th>
+              <th>
+                Score
+                <Button bsStyle="default" bsSize="xs" onClick={() => sortByVotes()}>
+                    <Glyphicon glyph="sort" style={{alignContent: 'right'}}/>
+                </Button>
+              </th>
+              <th>
+                Date
+                <Button bsStyle="default" bsSize="xs" onClick={() => sortByDate()}>
+                    <Glyphicon glyph="sort" style={{alignContent: 'right'}}/>
+                </Button>
+              </th>
               <th>Edit</th>
             </tr>
           </thead>
@@ -39,11 +63,11 @@ class PostsList extends Component {
                     {post.title}
                   </Link>
                 </td>
-                <td>{contents.find(c => c.id === post.id) && contents.find(c => c.id === post.id).author}</td>
+                <td>{post.author}</td>
                 <td>
                   {comments.reduce( (sum, value) => {
 
-                    if((value.parentId === post.id) && !contents.find(c => c.id === value.id).deleted) {
+                    if((value.parentId === post.id) && !post.deleted) {
                       sum = sum +1
                     }
                     return sum
@@ -59,8 +83,8 @@ class PostsList extends Component {
                     </Button>
                   </ButtonToolbar>   
                 </td>
-                <td>{contents.find(content => post.id === content.id).voteScore}</td>
-                <td>{new Date(contents.find(content => post.id === content.id).timestamp).toUTCString()}</td>
+                <td>{post.voteScore}</td>
+                <td>{new Date(post.timestamp).toUTCString()}</td>
                 <td>
                   <ButtonToolbar>
                     <Button bsStyle="default" bsSize="xs" onClick={() => deletePost({id: post.id, vote:1})}>
@@ -84,13 +108,16 @@ function mapDispatchToProps (dispatch) {
     updateVote: (data) => dispatch(updateVoteScore(data)),
     deletePost: (data) => dispatch(deleteContent(data)),
     editPost: (data) => dispatch(updateVoteScore(data)),
+    sortByDate: () => dispatch(sortByDate()),
+    sortByVotes: () => dispatch(sortByVotes())
   }
 }
-function mapStateToProps ({ posts, contents, comments }) {
+function mapStateToProps ({ posts, contents, comments, sort }) {
   return {
     posts,
     contents,
     comments,
+    sort,
   }
 }
 

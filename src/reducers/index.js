@@ -7,6 +7,8 @@ import {
   DELETE_CONTENT,
   ADD_CATEGORY,
   UPDATE_BUFFER,
+  SORT_BY_DATE,
+  SORT_BY_VOTE
 } from '../actions'
 
 
@@ -80,7 +82,7 @@ function contents(state = [], action) {
           timestamp: timestamp,
           body: body,
           author: author,
-          voteScore: 0,
+          voteScore: 1,
           deleted: false,
         }
       ]
@@ -126,6 +128,17 @@ function categories(state = [], action) {
   }
 }
 
+function sort(state = {order: 'VOTE'}, action) {
+  switch (action.type) {
+    case SORT_BY_DATE:
+      return {order: 'DATE'}
+    case SORT_BY_VOTE:
+      return {order: 'VOTE'}
+    default:
+      return state
+  }
+}
+
 function buffer(state = {}, action) {
   switch (action.type) {
     case UPDATE_BUFFER:
@@ -140,5 +153,6 @@ export default combineReducers({
   comments,
   contents,
   categories,
+  sort,
   buffer,
 })

@@ -66,10 +66,6 @@ class App extends Component {
     );
   }
 }
-function mapStateToProps () {
-  return {
-  }
-}
 
 function mapDispatchToProps (dispatch) {
   return { 
@@ -81,6 +77,6 @@ function mapDispatchToProps (dispatch) {
 }
 
 export default withRouter(connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(App))

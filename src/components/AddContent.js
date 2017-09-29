@@ -35,7 +35,7 @@ class AddContent extends Component {
     this.setState({category:event.target.value})
   }
   componentDidMount = () =>{
-    if(this.props.match.params.origin) {
+    if(this.props.match) {
       this.setState({category:this.props.match.params.origin})
     }
   }
