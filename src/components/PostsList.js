@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Table } from 'react-bootstrap'
 import { Button, ButtonToolbar, Glyphicon } from 'react-bootstrap'
-import { updateVoteScore } from '../actions'
+import { updateVoteScore, deleteContent } from '../actions'
 
 class PostsList extends Component {
   render () {
-    const { category, posts, comments, contents, updateVote } = this.props
+    const { category, posts, comments, contents, updateVote, deletePost, editPost } = this.props
 
     const activePosts = posts.filter(post => contents.find(c => c.id === post.id) && contents.find(c => c.id === post.id).deleted !== true)
     const postsList = category ? activePosts.filter(post => post.category === category) : activePosts
@@ -61,7 +61,16 @@ class PostsList extends Component {
                 </td>
                 <td>{contents.find(content => post.id === content.id).voteScore}</td>
                 <td>{new Date(contents.find(content => post.id === content.id).timestamp).toUTCString()}</td>
-                <td>edit link</td>
+                <td>
+                  <ButtonToolbar>
+                    <Button bsStyle="default" bsSize="xs" onClick={() => deletePost({id: post.id, vote:1})}>
+                      <Glyphicon glyph="remove" style={{color: 'red'}}/>
+                    </Button>
+                    <Button bsStyle="default" bsSize="xs" onClick={() => editPost({id: post.id, vote:-1})}>
+                      <Glyphicon glyph="edit" style={{color: 'black'}}/>
+                    </Button>
+                  </ButtonToolbar>   
+                </td>
               </tr>
             ))}
           </tbody>
@@ -72,7 +81,9 @@ class PostsList extends Component {
 }
 function mapDispatchToProps (dispatch) {
   return { 
-    updateVote: (data) => dispatch(updateVoteScore(data))
+    updateVote: (data) => dispatch(updateVoteScore(data)),
+    deletePost: (data) => dispatch(deleteContent(data)),
+    editPost: (data) => dispatch(updateVoteScore(data)),
   }
 }
 function mapStateToProps ({ posts, contents, comments }) {

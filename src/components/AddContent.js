@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { addContent } from '../actions'
 import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap'
 import { Redirect } from 'react-router'
+import uuidv1 from 'uuid/v1'
 
 class AddContent extends Component {
   state = {
@@ -14,9 +15,12 @@ class AddContent extends Component {
   }
   handleSubmit = (event) => {
     event.preventDefault()
-    //console.log(this.state.title)
-    this.props.addC({ id: 'dsfsdffd'+this.state.title, parentId: this.props.parentId, timestamp: Date.now(), title: this.state.title, body: this.state.body, author: this.state.author, category: this.state.category })
-    this.setState({fireRedirect: true})
+    this.props.addC({ id: uuidv1(), parentId: this.props.parentId, timestamp: Date.now(), title: this.state.title, body: this.state.body, author: this.state.author, category: this.state.category })
+    if(this.props.parentId) {
+      this.props.addMode()
+    } else {
+      this.setState({fireRedirect: true})
+    }
   }
   handleChangeTitle = (event) => {
     this.setState({title:event.target.value})
@@ -32,7 +36,7 @@ class AddContent extends Component {
   }
 
   render () {
-    const { parentId, categories } = this.props
+    const { parentId, categories, addMode } = this.props
     const { title, body, author, category, fireRedirect } = this.state
 
     return (
@@ -74,11 +78,19 @@ class AddContent extends Component {
         <Button type="submit">
           Submit
         </Button>
-        <Button>
-          Cancel
-        </Button>
+        {parentId ? (
+          <Button onClick={() => addMode()}>
+            Cancel
+          </Button>
+        ) : (
+          <Button onClick={this.props.history.goBack}>
+            Cancel
+          </Button>
+        )}
+
+
         {fireRedirect && (
-          <Redirect to={'/'}/>
+          !parentId && <Redirect to={`/${category}`}/>
         )}
       </form>
     )

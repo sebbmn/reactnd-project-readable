@@ -30,7 +30,7 @@ class CommentsList extends Component {
         <h4>{numberOfComments} Comments</h4>
         <Button bsStyle="default" bsSize="xs" onClick={this.addMode}>add comment</Button>
       {addMode ? (
-        <AddContent parentId={postId}></AddContent>
+        <AddContent parentId={postId} addMode={this.addMode}></AddContent>
       ) : (
         <div>
           {commentsList[0] && commentsList.map((comment) => (
