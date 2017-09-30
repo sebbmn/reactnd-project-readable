@@ -9,10 +9,10 @@ import { addContent } from '../actions'
 class AddContent extends Component {
 
   state = {
-    title: 'title',
+    title: '',
     body: 'Some text ...',
     author: 'author',
-    category: 'react',
+    category: '',
     fireRedirect: false
   }
   handleSubmit = (event) => {
@@ -41,7 +41,7 @@ class AddContent extends Component {
       this.setState({category:this.props.match.params.origin})
     }
   }
-  
+
   render () {
     const { parentId, categories, addMode } = this.props
     const { title, body, author, category, fireRedirect } = this.state

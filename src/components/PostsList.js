@@ -15,6 +15,7 @@ class PostsList extends Component {
     })
 
     postsList = postsList.filter(post =>  post.deleted !== true)
+    postsList = postsList.filter(post =>  post.title)
 
     if(category) {
       postsList = postsList.filter(post => post.category === category)
@@ -69,7 +70,7 @@ class PostsList extends Component {
                 <td>{post.author}</td>
                 <td>
                   {comments.reduce( (sum, value) => {
-                    if((value.parentId === post.id) && !post.deleted) {
+                    if((value.parentId === post.id) && !contents.find( c=> c.id === value.id).deleted) {
                       sum = sum +1
                     }
                     return sum
