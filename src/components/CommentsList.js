@@ -1,25 +1,32 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Content from './Content'
-import AddContent from './AddContent'
 import { Button, Glyphicon } from 'react-bootstrap'
 
+import Content from './Content'
+import AddContent from './AddContent'
+
 class CommentsList extends Component {
+
   state = {
     addMode: false
   }
   addMode = () => {
     this.setState({addMode: !this.state.addMode})
   }
+  
   render () {
     const { postId, comments, contents } = this.props
     const { addMode } = this.state
 
-    const activeComments = comments.filter(comment => contents.find(c => c.id === comment.id) && contents.find(c => c.id === comment.id).deleted !== true)
-    const commentsList = activeComments.filter(comment => comment.parentId === postId)
+    let commentsList = comments.map( (comment) => {
+      return { ...comment, ...contents.find(c => c.id === comment.id) }
+    })
 
-    const numberOfComments = comments.reduce( (sum, value) => {
-                                if((value.parentId === postId) && !contents.find(c => c.id === value.id).deleted) {
+    commentsList = commentsList.filter(comment =>  comment.deleted !== true)
+    commentsList = commentsList.filter(comment => comment.parentId === postId)
+
+    const numberOfComments = commentsList.reduce( (sum, value) => {
+                                if((value.parentId === postId) && !value.deleted) {
                                   sum = sum +1
                                 }
                                 return sum
@@ -53,7 +60,6 @@ function mapStateToProps ({ comments, contents }) {
     contents
   }
 }
-
 export default connect(
   mapStateToProps
 )(CommentsList)

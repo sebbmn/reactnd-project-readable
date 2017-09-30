@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { addContent } from '../actions'
-import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap'
 import { Redirect } from 'react-router'
+import { connect } from 'react-redux'
+import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap'
 import uuidv1 from 'uuid/v1'
+
+import { addContent } from '../actions'
 
 class AddContent extends Component {
   state = {
-    title: '',
-    body: '',
-    author: '',
+    title: 'title',
+    body: 'Some text ...',
+    author: 'author',
     category: 'react',
     fireRedirect: false
   }
@@ -66,7 +67,7 @@ class AddContent extends Component {
           <ControlLabel>Category</ControlLabel>
           <FormControl componentClass="select" placeholder="select" value={category} onChange={this.handleChangeCategory}>
             {categories && categories.map( c => (
-              <option value={c.name}>{c.name}</option>
+              <option key={c.name} value={c.name}>{c.name}</option>
             ))}
           </FormControl>
         </FormGroup>
@@ -100,6 +101,7 @@ class AddContent extends Component {
     )
   }
 }
+
 function mapStateToProps ({ categories }) {
   return {
     categories

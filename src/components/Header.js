@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import { PageHeader, Navbar, Nav, NavItem, Glyphicon } from 'react-bootstrap'
 import { IndexLinkContainer } from 'react-router-bootstrap'
 

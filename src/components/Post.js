@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+
 import CommentsList from './CommentsList'
 import Content from './Content'
 
 class Post extends Component {
+
   render () {
     const {match, contents, posts} = this.props
 
@@ -15,7 +17,7 @@ class Post extends Component {
         {post && (!content.deleted ? (
           <div>
             <h3>{post && post.title}</h3>
-            <Content contentId={match.params.post_id} isPost={true}></Content>
+            <Content contentId={match.params.post_id}></Content>
             <CommentsList postId={match.params.post_id}></CommentsList>
           </div>
         ) : (
@@ -25,13 +27,13 @@ class Post extends Component {
     )
   }
 }
+
 function mapStateToProps ({ contents, posts }) {
   return {
     contents,
     posts
   }
 }
-
 export default connect(
   mapStateToProps
 )(Post)

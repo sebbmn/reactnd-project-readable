@@ -1,19 +1,20 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Table } from 'react-bootstrap'
-import { Button, ButtonToolbar, Glyphicon } from 'react-bootstrap'
+import { connect } from 'react-redux'
+import { Table, Button, ButtonToolbar, Glyphicon } from 'react-bootstrap'
+
 import { updateVoteScore, deleteContent, sortByDate, sortByVotes } from '../actions'
 
 class PostsList extends Component {
+  
   render () {
     const { category, posts, comments, contents, updateVote, deletePost, editPost, sort, sortByDate, sortByVotes } = this.props
 
-    const activePosts = posts.filter(post => contents.find(c => c.id === post.id) && contents.find(c => c.id === post.id).deleted !== true)
-
-    let postsList = activePosts.map( (post) => {
+    let postsList = posts.map( (post) => {
       return { ...post, ...contents.find(c => c.id === post.id) }
     })
+
+    postsList = postsList.filter(post =>  post.deleted !== true)
 
     if(category) {
       postsList = postsList.filter(post => post.category === category)
@@ -25,10 +26,12 @@ class PostsList extends Component {
       postsList.sort((a,b) => -1*(a.timestamp-b.timestamp))
     }
 
+    // default category = udacity
+    let origin = category ? category : 'udacity'
 
     return (
       <div>
-        <Link to={`/new/${category}`}>
+        <Link to={`/new/${origin}`}>
           <Glyphicon glyph="plus-sign" style={{color: '#aaaaaa', fontSize: '14pt'}}/>
         </Link>
         <Table striped bordered condensed>
@@ -66,7 +69,6 @@ class PostsList extends Component {
                 <td>{post.author}</td>
                 <td>
                   {comments.reduce( (sum, value) => {
-
                     if((value.parentId === post.id) && !post.deleted) {
                       sum = sum +1
                     }
@@ -87,7 +89,7 @@ class PostsList extends Component {
                 <td>{new Date(post.timestamp).toUTCString()}</td>
                 <td>
                   <ButtonToolbar>
-                    <Button bsStyle="default" bsSize="xs" onClick={() => deletePost({id: post.id, vote:1})}>
+                    <Button bsStyle="default" bsSize="xs" onClick={() => deletePost({id: post.id})}>
                       <Glyphicon glyph="remove" style={{color: 'red'}}/>
                     </Button>
                     <Button bsStyle="default" bsSize="xs" onClick={() => editPost({id: post.id, vote:-1})}>
@@ -103,6 +105,7 @@ class PostsList extends Component {
     )
   }
 }
+
 function mapDispatchToProps (dispatch) {
   return { 
     updateVote: (data) => dispatch(updateVoteScore(data)),
@@ -120,7 +123,6 @@ function mapStateToProps ({ posts, contents, comments, sort }) {
     sort,
   }
 }
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

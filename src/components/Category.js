@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
+
 import PostsList from './PostsList'
 
 class Category extends Component {
+  
   render () {
     const { match } = this.props
 
