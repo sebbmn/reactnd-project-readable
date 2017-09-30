@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Content from './Content'
 import AddContent from './AddContent'
-import { Button } from 'react-bootstrap'
+import { Button, Glyphicon } from 'react-bootstrap'
 
 class CommentsList extends Component {
   state = {
@@ -28,7 +28,9 @@ class CommentsList extends Component {
     return (
       <div className='comments'>
         <h4>{numberOfComments} Comments</h4>
-        <Button bsStyle="default" bsSize="xs" onClick={this.addMode}>add comment</Button>
+        <Button bsStyle="default" bsSize="xs" onClick={this.addMode}>
+          <Glyphicon glyph="plus-sign" style={{color: '#aaaaaa', fontSize: '14pt'}}/>
+        </Button>
       {addMode ? (
         <AddContent parentId={postId} addMode={this.addMode}></AddContent>
       ) : (
