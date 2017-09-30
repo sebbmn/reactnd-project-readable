@@ -14,17 +14,26 @@ class EditContent extends Component {
   }
   handleSubmit = (event) => {
     event.preventDefault()
-    if(this.props.contentId) {
+
+    if(this.props.match) {
+      this.props.updateC({ id: this.props.match.params.contentId, body: this.state.formContent })
+      this.props.history.goBack()
+    } else if(this.props.contentId) {
       this.props.updateC({ id: this.props.contentId, body: this.state.formContent })
+      this.props.editMode()
     }
-    this.props.editMode()
   }
   
   render () {
-    const { contentId, contents, editMode } = this.props
+    const { contentId, contents, editMode, match } = this.props
     const { formContent } = this.state
     
-    const content = contents.find(content => content.id === contentId)
+    let content
+    if(match) {
+      content = contents.find(content => content.id === match.params.contentId)
+    } else {
+      content = contents.find(content => content.id === contentId)
+    }
     
     const body = (formContent !== null) ? formContent : content && content.body
 
@@ -36,9 +45,15 @@ class EditContent extends Component {
         <Button type="submit">
           Submit
         </Button>
-        <Button onClick={editMode}>
-          Cancel
-        </Button>
+        {!match ? (
+          <Button onClick={editMode}>
+            Cancel
+          </Button>
+        ) : (
+          <Button onClick={this.props.history.goBack}>
+            Cancel
+          </Button>
+        )}
       </form>
     )
   }

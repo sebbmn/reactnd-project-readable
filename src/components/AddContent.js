@@ -7,6 +7,7 @@ import uuidv1 from 'uuid/v1'
 import { addContent } from '../actions'
 
 class AddContent extends Component {
+
   state = {
     title: 'title',
     body: 'Some text ...',
@@ -40,6 +41,7 @@ class AddContent extends Component {
       this.setState({category:this.props.match.params.origin})
     }
   }
+  
   render () {
     const { parentId, categories, addMode } = this.props
     const { title, body, author, category, fireRedirect } = this.state

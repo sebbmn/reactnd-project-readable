@@ -8,7 +8,7 @@ import { updateVoteScore, deleteContent, sortByDate, sortByVotes } from '../acti
 class PostsList extends Component {
   
   render () {
-    const { category, posts, comments, contents, updateVote, deletePost, editPost, sort, sortByDate, sortByVotes } = this.props
+    const { category, posts, comments, contents, updateVote, deletePost, sort, sortByDate, sortByVotes } = this.props
 
     let postsList = posts.map( (post) => {
       return { ...post, ...contents.find(c => c.id === post.id) }
@@ -92,9 +92,11 @@ class PostsList extends Component {
                     <Button bsStyle="default" bsSize="xs" onClick={() => deletePost({id: post.id})}>
                       <Glyphicon glyph="remove" style={{color: 'red'}}/>
                     </Button>
-                    <Button bsStyle="default" bsSize="xs" onClick={() => editPost({id: post.id, vote:-1})}>
-                      <Glyphicon glyph="edit" style={{color: 'black'}}/>
-                    </Button>
+                    <Button bsStyle="default" bsSize="xs">
+                      <Link to={`/edit/${post.id}`}>
+                        <Glyphicon glyph="edit" style={{color: 'black'}}/>
+                      </Link>
+                    </Button> 
                   </ButtonToolbar>   
                 </td>
               </tr>
@@ -110,7 +112,6 @@ function mapDispatchToProps (dispatch) {
   return { 
     updateVote: (data) => dispatch(updateVoteScore(data)),
     deletePost: (data) => dispatch(deleteContent(data)),
-    editPost: (data) => dispatch(updateVoteScore(data)),
     sortByDate: () => dispatch(sortByDate()),
     sortByVotes: () => dispatch(sortByVotes())
   }
