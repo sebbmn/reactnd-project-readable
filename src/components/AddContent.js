@@ -51,7 +51,7 @@ class AddContent extends Component {
         {!parentId &&
         <FormGroup controlId="formControlsTextarea">
           <ControlLabel>
-            titre
+            Title
           </ControlLabel>
           <FormControl type="text" value={title} onChange={this.handleChangeTitle}/>
         </FormGroup>
@@ -59,7 +59,7 @@ class AddContent extends Component {
 
         <FormGroup controlId="formControlsTextarea">
           <ControlLabel>
-            author
+            Author
           </ControlLabel>
           <FormControl type="text" value={author} onChange={this.handleChangeAuthor}/>
         </FormGroup>
