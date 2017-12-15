@@ -27,7 +27,6 @@ class PostsList extends Component {
       postsList.sort((a,b) => -1*(a.timestamp-b.timestamp))
     }
 
-    // default category = udacity
     let origin = category ? category : 'udacity'
 
     return (
